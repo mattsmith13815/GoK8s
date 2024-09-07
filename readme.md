@@ -1,5 +1,5 @@
 ## Develop Program
-This simple app creates a hello world web server using the programming language Go
+This simple app creates a hello world web server using the programming language Go, HTML & Pico CSS
 
 ## Build application for Linux
 set GOOS=linux
