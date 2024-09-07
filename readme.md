@@ -1,7 +1,13 @@
 ## Develop Program
-This simple app creates a hello world web server using the programming language Go, HTML & Pico CSS
+This simple app creates a hello world web server using the programming language Go, HTML & Pico CSS. THe powershell will build the go app and deploy to a local instance of Kubernetes. Not intended for production use. 
 
-## Build application for Linux
+## Developer Setup
+1. Install GO
+2. Install Docker Desktop & enable Kubernetes
+3. Pull project to local location
+4. Baseline: run .\build_and_deploy.ps1 & open http://localhost:8080
+
+## Build GO application for Linux
 set GOOS=linux
 set GOARCH=amd64
 go build -o .
@@ -25,5 +31,5 @@ kubectl delete deployment gocontainer-deployment
 ## Single Build Command:
 .\build_and_deploy.ps1
 
-## Remote Registry for Container Images?
-To Do
+## To Do:
+- Remote Registry push for Container Images
