@@ -14,8 +14,9 @@ spec:
     spec:
       containers:
       - name: gocontainer
-        image: localhost/gocontainer:latest
-        imagePullPolicy: IfNotPresent
+        # image: localhost/gocontainer:latest
+        image: ghcr.io/mattsmith13815/gok8s:main
+        # imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
         env:
