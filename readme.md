@@ -30,6 +30,23 @@ kubectl delete deployment gocontainer-deployment
 
 ## Single Build Command:
 .\build_and_deploy.ps1
+.\build_and_deploy_java.ps1
 
 ## To Do:
 - Remote Registry push for Container Images
+
+## Java App
+cd java-tomcat-app
+mvn clean package
+cd ..
+docker build -t java-tomcat-app:latest .
+docker run -p 8081:8080 java-tomcat-app
+
+kubectl delete deployment java-tomcat-app
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+kubectl get deployments
+kubectl get pods
+kubectl get services
+
