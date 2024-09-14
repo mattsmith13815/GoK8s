@@ -7,7 +7,7 @@ name: Docker
 
 on:
   schedule:
-    - cron: '34 7 * * *'
+    - cron: '30 7 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
@@ -36,6 +36,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up JDK 22.0.2
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '22.0.2'
+
+      - name: Build with Maven
+        run: |
+          cd java-tomcat-app
+          mvn clean package
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
