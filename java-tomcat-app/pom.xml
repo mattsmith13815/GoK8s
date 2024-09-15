@@ -22,5 +22,12 @@
 
     <build>
         <finalName>java-tomcat-app</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version> <!-- Update to a newer version -->
+            </plugin>
+        </plugins>
     </build>
 </project>
