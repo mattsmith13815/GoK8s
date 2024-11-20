@@ -24,6 +24,7 @@ spec:
           value: "linux"
         - name: GOARCH
           value: "amd64"
+        allowPrivilegeEscalation: false
 
 ---
 apiVersion: v1
