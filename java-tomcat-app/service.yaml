@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: java-tomcat-app
 spec:
+  loadBalancerSourceRanges:
+    - 127.0.0.1/32  # Restrict access to the service to localhost only
   selector:
     app: java-tomcat-app
   ports:
     - protocol: TCP
-      port: 8081
-      targetPort: 8080
+      port: 80          # Expose the service on port 80 for external access
+      targetPort: 8081  # Forward traffic to the Apache container's port 8081
   type: LoadBalancer
+  

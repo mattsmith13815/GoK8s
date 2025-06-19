@@ -12,10 +12,92 @@ spec:
       labels:
         app: java-tomcat-app
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+        supplementalGroups: [4000]
       containers:
       - name: java-tomcat-app
-        #image: java-tomcat-app:latest
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
         image: ghcr.io/mattsmith13815/gok8s:main
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem : true
+          runAsUser: 100001
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      - name: apache-web-server
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        image: httpd:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        volumeMounts:
+        - name: apache-config
+          mountPath: /usr/local/apache2/conf/httpd.conf
+          subPath: httpd.conf
+        - name: apache-logs
+          mountPath: /usr/local/apache2/logs
+        securityContext:
+          runAsUser: 200001
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem : true
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: apache-config
+        configMap:
+          name: apache-config
+      - name: apache-logs
+        emptyDir: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apache-config
+data:
+  httpd.conf: |
+    ServerName localhost
+
+    # Load required modules
+    LoadModule mpm_event_module modules/mod_mpm_event.so
+    LoadModule proxy_module modules/mod_proxy.so
+    LoadModule proxy_http_module modules/mod_proxy_http.so
+
+    <VirtualHost *:80>
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:8080/
+        ProxyPassReverse / http://localhost:8080/
+    </VirtualHost>

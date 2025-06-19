@@ -1,1 +1,55 @@
+# General OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+*.out
+
+# Compiled class files
+*.class
+
+# Maven-specific files
+.mvn/
+target/
+dependency-reduced-pom.xml
+
+# Gradle-specific files
+.gradle/
+build/
+
+# IDE-specific files
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# Kubernetes-specific files
+*.yaml~
+*.yml~
+.kube/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Application-specific files
 /dist
+/java-tomcat-app/
+.java-tomcat-app/target/
+/java-tomcat-app/target/*
+/java-tomcat-app/target/java-tomcat-app.war
+/java-tomcat-app/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+
+# Node.js (if applicable for frontend assets)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Docker-specific files
+*.env
+docker-compose.override.yml
