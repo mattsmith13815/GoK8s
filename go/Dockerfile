@@ -17,7 +17,7 @@ ENV GOARCH=amd64
 RUN go build -o dist
 
 # Use a minimal base image for the final container
-FROM alpine:latest
+FROM alpine:3.23.3
 
 # Set the working directory inside the container
 WORKDIR /app/dist
