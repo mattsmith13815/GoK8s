@@ -52,7 +52,8 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-        image: httpd:latest
+        #image: httpd:latest
+        image: httpd:trixie@sha256:96b1e8f69ee3adde956e819f7a7c3e706edef7ad88a26a491734015e5c595333
         imagePullPolicy: Always
         ports:
         - containerPort: 8081
