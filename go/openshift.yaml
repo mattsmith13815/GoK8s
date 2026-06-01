@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gocontainer-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gocontainer
+  template:
+    metadata:
+      labels:
+        app: gocontainer
+    spec:
+      containers:
+      - name: gocontainer
+        image: ghcr.io/mattsmith13815/gok8s:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: GOOS
+          value: "linux"
+        - name: GOARCH
+          value: "amd64"
+        securityContext:
+          allowPrivilegeEscalation: false
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gocontainer-service
+spec:
+  selector:
+    app: gocontainer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+# OpenShift Route — exposes the service externally via the cluster's ingress router.
+# Replace <your-cluster-domain> with your actual OpenShift apps domain, e.g.
+#   apps.mycluster.example.com
+# Leave host empty to let OpenShift auto-generate the hostname.
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: gocontainer-route
+spec:
+  to:
+    kind: Service
+    name: gocontainer-service
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

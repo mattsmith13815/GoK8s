@@ -14,20 +14,24 @@ COPY . .
 # Build the Go application
 ENV GOOS=linux
 ENV GOARCH=amd64
-RUN go build -o dist
+RUN go build -o gocontainer
 
 # Use a minimal base image for the final container
 FROM alpine:latest
 
 # Set the working directory inside the container
-WORKDIR /app/dist
+WORKDIR /app
 
 # Copy the built binary from the builder stage
-COPY --from=builder /app/dist/gocontainer .
+COPY --from=builder /app/gocontainer .
 COPY ./static ./static
 
 #Install dependencies
 RUN apk add libc6-compat
+
+# Run as non-root for OpenShift compatibility
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup && chown -R appuser:appgroup /app
+USER appuser
 
 # Expose the port your application runs on (if applicable)
 EXPOSE 8080
