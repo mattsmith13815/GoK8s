@@ -12,6 +12,8 @@ spec:
       labels:
         app: gocontainer
     spec:
+      imagePullSecrets:
+      - name: ghcr-secret
       containers:
       - name: gocontainer
         image: ghcr.io/mattsmith13815/gok8s:main
