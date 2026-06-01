@@ -37,17 +37,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: '22.0.2'
-
-      - name: Build with Maven
-        run: |
-          cd java-tomcat-app
-          mvn clean package
-
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
