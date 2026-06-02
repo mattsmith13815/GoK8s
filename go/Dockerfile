@@ -31,6 +31,7 @@ RUN apk add libc6-compat
 
 # Run as non-root for OpenShift compatibility
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup && chown -R appuser:appgroup /app
+RUN chmod -R a+rX /app
 USER appuser
 
 # Expose the port your application runs on (if applicable)
