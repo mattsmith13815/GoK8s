@@ -1,4 +1,4 @@
-FROM golang:1.25 AS builder
+FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o gocontainer ./go
+RUN go build -o gocontainer .
 
 FROM alpine:3.23.3
 
