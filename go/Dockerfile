@@ -14,7 +14,7 @@ FROM alpine:3.23.3
 WORKDIR /app
 
 COPY --from=builder /app/gocontainer /app/gocontainer
-COPY --from=builder /app/go/static /app/static
+COPY --from=builder /app/static /app/static
 
 RUN apk add libc6-compat
 
