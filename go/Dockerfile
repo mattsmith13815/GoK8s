@@ -24,7 +24,7 @@ WORKDIR /app
 
 # Copy the built binary from the builder stage
 COPY --from=builder /app/gocontainer /app/gocontainer
-COPY --from=builder /app/static /app/static
+COPY --from=builder /app/go/static /app/static
 
 #Install dependencies
 RUN apk add libc6-compat
